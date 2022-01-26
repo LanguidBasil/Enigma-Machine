@@ -9,6 +9,14 @@ Enigma::Enigma(std::array<Rotor, 3> rotors, std::array<Plug, 10> plugboard)
 
 char Enigma::Encode(char input)
 {
+	// to upper case
+	if (InRangeInclusive(input, 'a', 'z'))
+		input -= 32;
+
+	if (!InRangeInclusive(input, 'A', 'Z'))
+		throw "Input is not a character";
+
+
 	char output = input;
 
 	output = PushToPlugboard(output);
@@ -24,6 +32,7 @@ char Enigma::Encode(char input)
 	output = PushToPlugboard(output);
 
 	UpdateRotors();
+
 
 	return output;
 }
@@ -43,8 +52,6 @@ char Enigma::PushToPlugboard(char input)
 
 char Enigma::PushToRotor(char input, int rotorIndex)
 {
-	if (!InRangeInclusive(input, 'A', 'Z'))
-		throw "Input of Encode on Rotor not in 'A' to 'Z' range";
 	int indexInConf = input - 'A';
 
 	Rotor& rotor = Rotors[rotorIndex];

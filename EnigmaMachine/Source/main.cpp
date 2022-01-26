@@ -16,13 +16,21 @@ int main()
 	std::string output;
 	while (true)
 	{
-		std::cin >> input;
+		std::getline(std::cin, input);
 		output = "";
 		
 		for (auto c : input)
-			if (InRangeInclusive(c, 'A', 'Z'))
+			if (InRangeInclusive(c, 'A', 'Z') || InRangeInclusive(c, 'a', 'z'))
 				output += e.Encode(c);
 
-		std::cout << output << std::endl << std::endl;
+		for (auto i = 0; i < output.size(); i++)
+		{
+			std::cout << output[i];
+
+			if ((i + 1) % 5 == 0)
+				std::cout << ' ';
+		}
+
+		std::cout << std::endl << std::endl;
 	}
 }
