@@ -1,6 +1,6 @@
 #include <iostream>
 #include <array>
-#include <Enigma.h>
+#include "Enigma/Enigma.h"
 
 int main()
 {

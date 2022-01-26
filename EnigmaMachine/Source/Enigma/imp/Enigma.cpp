@@ -1,5 +1,5 @@
 #include <array>
-#include <Enigma.h>
+#include "../Enigma.h"
 
 Enigma::Enigma(char rotorSlow, char rotorMedium, char rotorFast)
 	: RotorSlow(rotorSlow), RotorMedium(rotorMedium), RotorFast(rotorFast) {}
