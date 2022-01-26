@@ -14,4 +14,7 @@ private:
 	std::array<Rotor, 3> Rotors;
 
 	char PushToRotor(char input, int rotorIndex);
+	char PushToReflector(char input);
+	char PushToRotorBackwards(char input, int rotorIndex);
+	void UpdateRotors();
 };
