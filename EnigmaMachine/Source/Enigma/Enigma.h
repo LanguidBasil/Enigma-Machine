@@ -1,14 +1,17 @@
 #pragma once
 
+#include <array>
+#include "Rotor.h"
+
 class Enigma
 {
 public:
-	Enigma(char rotorSlow, char rotorMedium, char rotorFast);
+	Enigma(std::array<Rotor, 3> rotors);
 
-	std::array<char, 3> RotorPoitions();
+	char Encode(char input);
 
 private:
-	char RotorSlow;
-	char RotorMedium;
-	char RotorFast;
+	std::array<Rotor, 3> Rotors;
+
+	char PushToRotor(char input, int rotorIndex);
 };

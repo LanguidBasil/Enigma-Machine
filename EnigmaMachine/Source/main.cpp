@@ -1,10 +1,18 @@
 #include <iostream>
 #include <array>
 #include "Enigma/Enigma.h"
+#include "Enigma/Rotor.h"
 
 int main()
 {
-	Enigma e('A', 'A', 'A');
-	auto rotors = e.RotorPoitions();
-	std::cout << rotors[0] << ' ' << rotors[1] << ' ' << rotors[2];
+	auto defaultRotorConf = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	std::array<Rotor, 3> rotors = { Rotor(defaultRotorConf, 0), Rotor(defaultRotorConf, 0), Rotor(defaultRotorConf, 0) };
+	Enigma e(rotors);
+
+	char input;
+	while (true)
+	{
+		std::cin >> input;
+		std::cout << ' ' << e.Encode(input) << std::endl;
+	}
 }
