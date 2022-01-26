@@ -4,12 +4,14 @@
 
 static const int LETTERS_IN_ALPHABET = 26;
 
-Enigma::Enigma(std::array<Rotor, 3> rotors)
-	: Rotors(rotors) {}
+Enigma::Enigma(std::array<Rotor, 3> rotors, std::array<Plug, 10> plugboard)
+	: Rotors(rotors), Plugboard(plugboard) {}
 
 char Enigma::Encode(char input)
 {
 	char output = input;
+
+	output = PushToPlugboard(output);
 
 	for (auto i = 0; i < Rotors.size(); i++)
 		output = PushToRotor(output, i);
@@ -19,9 +21,24 @@ char Enigma::Encode(char input)
 	for (auto i = 2; i > -1; i--)
 		output = PushToRotorBackwards(output, i);
 
+	output = PushToPlugboard(output);
+
 	UpdateRotors();
 
 	return output;
+}
+
+char Enigma::PushToPlugboard(char input)
+{
+	for (auto& plug : Plugboard)
+	{
+		if (input == plug.Letter1)
+			return plug.Letter2;
+		else if (input == plug.Letter2)
+			return plug.Letter1;
+	}
+
+	return input;
 }
 
 char Enigma::PushToRotor(char input, int rotorIndex)
