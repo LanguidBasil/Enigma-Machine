@@ -2,6 +2,8 @@
 #include "../Enigma.h"
 #include "../../Math Extenstions/MathExtensions.h"
 
+static const int LETTERS_IN_ALPHABET = 26;
+
 Enigma::Enigma(std::array<Rotor, 3> rotors)
 	: Rotors(rotors) {}
 
@@ -12,7 +14,6 @@ char Enigma::Encode(char input)
 	for (auto i = 0; i < Rotors.size(); i++)
 		output = PushToRotor(output, i);
 
-	// reflect
 	output = PushToReflector(output);
 
 	for (auto i = 2; i > -1; i--)
@@ -30,7 +31,7 @@ char Enigma::PushToRotor(char input, int rotorIndex)
 	int indexInConf = input - 'A';
 
 	Rotor& rotor = Rotors[rotorIndex];
-	char output = rotor.Configuration[(indexInConf + rotor.Rotation) % 26];
+	char output = rotor.Configuration[(indexInConf + rotor.Rotation) % LETTERS_IN_ALPHABET];
 
 	return output;
 }
@@ -39,7 +40,7 @@ char Enigma::PushToReflector(char input)
 {
 	char output = input;
 	output -= 'A';
-	output = (output + 13) % 26;
+	output = (output + 13) % LETTERS_IN_ALPHABET;
 	output += 'A';
 	return output;
 }
@@ -51,10 +52,10 @@ char Enigma::PushToRotorBackwards(char input, int rotorIndex)
 
 	Rotor& rotor = Rotors[rotorIndex];
 	int indexInConf;
-	for (auto i = 0; i < 26; i++)
+	for (auto i = 0; i < LETTERS_IN_ALPHABET; i++)
 		if (rotor.Configuration[i] == input)
 		{
-			indexInConf = i;
+			indexInConf = (i + LETTERS_IN_ALPHABET - rotor.Rotation) % LETTERS_IN_ALPHABET;
 			break;
 		}
 
@@ -64,17 +65,17 @@ char Enigma::PushToRotorBackwards(char input, int rotorIndex)
 void Enigma::UpdateRotors()
 {
 	Rotor* rotor = &Rotors[0];
-	rotor->Rotation = (rotor->Rotation + 1) % 26;
+	rotor->Rotation = (rotor->Rotation + 1) % LETTERS_IN_ALPHABET;
 
 	if (rotor->Rotation == 0)
 	{
 		rotor = &Rotors[1];
-		rotor->Rotation = (rotor->Rotation + 1) % 26;
+		rotor->Rotation = (rotor->Rotation + 1) % LETTERS_IN_ALPHABET;
 	}
 
 	if (rotor->Rotation == 0)
 	{
 		rotor = &Rotors[2];
-		rotor->Rotation = (rotor->Rotation + 1) % 26;
+		rotor->Rotation = (rotor->Rotation + 1) % LETTERS_IN_ALPHABET;
 	}
 }
