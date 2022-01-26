@@ -67,13 +67,13 @@ void Enigma::UpdateRotors()
 	Rotor* rotor = &Rotors[0];
 	rotor->Rotation = (rotor->Rotation + 1) % LETTERS_IN_ALPHABET;
 
-	if (rotor->Rotation == 0)
+	if (rotor->Rotation == rotor->RotationRingIndex)
 	{
 		rotor = &Rotors[1];
 		rotor->Rotation = (rotor->Rotation + 1) % LETTERS_IN_ALPHABET;
 	}
 
-	if (rotor->Rotation == 0)
+	if (rotor->Rotation == rotor->RotationRingIndex)
 	{
 		rotor = &Rotors[2];
 		rotor->Rotation = (rotor->Rotation + 1) % LETTERS_IN_ALPHABET;

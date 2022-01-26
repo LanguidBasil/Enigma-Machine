@@ -9,7 +9,7 @@ int main()
 	auto IC = "DMTWSILRUYQNKFEJCAZBPGXOHV";
 	auto IIC = "HQZGPJTMOBLNCIFDYAWVEUSRKX";
 	auto IIIC = "UQNTLSZFMREHDPXKIBVYGJCWOA";
-	std::array<Rotor, 3> rotors = { Rotor(IC, 16), Rotor(IIC, 3), Rotor(IIIC, 5) };
+	std::array<Rotor, 3> rotors = { Rotor(IC, 16, 0), Rotor(IIC, 3, 0), Rotor(IIIC, 5, 0) };
 	Enigma e(rotors);
 
 	std::string input;
@@ -23,6 +23,6 @@ int main()
 			if (InRangeInclusive(c, 'A', 'Z'))
 				output += e.Encode(c);
 
-		std::cout << output << std::endl;
+		std::cout << output << std::endl << std::endl;
 	}
 }
