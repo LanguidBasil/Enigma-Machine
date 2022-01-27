@@ -1,14 +1,57 @@
 #include <array>
+#include <time.h>
 #include "../Enigma.h"
+#include "../EnigmaConfigurations.h"
 #include "../../Math Extenstions/MathExtensions.h"
 
-const int LETTERS_IN_ALPHABET = 26;
+static const int LETTERS_IN_ALPHABET = 26;
 
 namespace Enigma
 {
+	static std::array<Plug, 10> GenerateRandomPlugboard()
+	{
+		std::srand(time(nullptr));
+		
+		std::array<Plug, 10> plugboard;
+		std::array<bool, 26> alphabetLetterIsOccupied = { false };
+
+		int letterIndex1, letterIndex2;
+		for (int i = 0; i < 10; i++)
+		{
+			letterIndex1 = rand() % 26;
+			while (alphabetLetterIsOccupied[letterIndex1])
+				letterIndex1++;
+
+			letterIndex2 = rand() % 26;
+			while (alphabetLetterIsOccupied[letterIndex2])
+				letterIndex2++;
+
+			plugboard[i] = Plug('A' + letterIndex1, 'A' + letterIndex2);
+		}
+
+		return plugboard;
+	}
+
 	Enigma::Enigma(std::array<Rotor, 3> rotors, std::array<Plug, 10> plugboard, std::string reflectorConfiguration)
 		: Rotors(rotors), Plugboard(plugboard), ReflectorConfiguration(reflectorConfiguration)
 	{}
+
+	Enigma Enigma::GenerateRandom()
+	{
+		std::srand(time(nullptr));
+
+		auto& rotorConfs = Configurations::RotorConfs;
+		std::array<Rotor, 3> rotors;
+		for (auto i = 0; i < 3; i++)
+			rotors[i] = Rotor(rotorConfs[rand() % rotorConfs.size()], rand() % LETTERS_IN_ALPHABET, rand() % LETTERS_IN_ALPHABET);
+
+		auto plugboard = GenerateRandomPlugboard();
+
+		auto& reflectorConfs = Configurations::ReflectorConfs;
+		auto reflector = reflectorConfs[rand() % reflectorConfs.size()];
+
+		return ::Enigma::Enigma(rotors, plugboard, reflector);
+	}
 
 	char Enigma::Encode(char input)
 	{

@@ -20,7 +20,7 @@ Enigma::Enigma constructEnigma()
 
 int main()
 {
-	Enigma::Enigma e = constructEnigma();
+	auto e = Enigma::Enigma::GenerateRandom();
 
 	std::string input;
 	std::string output;

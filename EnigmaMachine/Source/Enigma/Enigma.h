@@ -11,6 +11,7 @@ namespace Enigma
 	public:
 		Enigma(std::array<Rotor, 3> rotors, std::array<Plug, 10> plugboard, std::string reflectorConfiguration);
 
+		static Enigma GenerateRandom();
 		char Encode(char input);
 
 	private:
