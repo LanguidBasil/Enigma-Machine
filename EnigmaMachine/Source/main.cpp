@@ -1,20 +1,19 @@
 #include <iostream>
 #include <array>
 #include "Enigma/Enigma.h"
+#include "Enigma/EnigmaConfigurations.h"
 #include "Math Extenstions/MathExtensions.h"
 
 Enigma::Enigma constructEnigma()
 {
 	using namespace Enigma;
+	namespace Confs = ::Enigma::Configurations;
 
-	auto rotorConf1 = "DMTWSILRUYQNKFEJCAZBPGXOHV";
-	auto rotorConf2 = "HQZGPJTMOBLNCIFDYAWVEUSRKX";
-	auto rotorConf3 = "UQNTLSZFMREHDPXKIBVYGJCWOA";
-	std::array<Rotor, 3> rotors = { Rotor(rotorConf1, 16, 14), Rotor(rotorConf2, 3, 4), Rotor(rotorConf3, 5, 21) };
+	std::array<Rotor, 3> rotors = { Rotor(Confs::RotorI, 16, 14), Rotor(Confs::RotorII, 3, 4), Rotor(Confs::RotorIII, 5, 21) };
 
 	std::array<Plug, 10> plugboard = { Plug("QE"), Plug("ZI"), Plug("OA"), Plug("SD"), Plug("HJ"), Plug("KC"), Plug("WU"), Plug("FY"), Plug("VN"), Plug("BT") };
 
-	auto reflectorConf = "FVPJIAOYEDRZXWGCTKUQSBNMHL";
+	auto reflectorConf = Confs::ReflectorA;
 
 	return ::Enigma::Enigma(rotors, plugboard, reflectorConf);
 }
