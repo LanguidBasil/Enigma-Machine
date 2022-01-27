@@ -71,19 +71,15 @@ char Enigma::PushToReflector(char input)
 
 char Enigma::PushToRotorBackwards(char input, int rotorIndex)
 {
-	if (!InRangeInclusive(input, 'A', 'Z'))
-		throw "Input of Encode on Rotor not in 'A' to 'Z' range";
-
 	Rotor& rotor = Rotors[rotorIndex];
-	int indexInConf;
 	for (auto i = 0; i < LETTERS_IN_ALPHABET; i++)
 		if (rotor.Configuration[i] == input)
 		{
-			indexInConf = (i + LETTERS_IN_ALPHABET - rotor.Rotation) % LETTERS_IN_ALPHABET;
-			break;
+			int indexInConf = (i + LETTERS_IN_ALPHABET - rotor.Rotation) % LETTERS_IN_ALPHABET;
+			return indexInConf + 'A';
 		}
 
-	return indexInConf + 'A';
+	return '0';
 }
 
 void Enigma::UpdateRotors()
