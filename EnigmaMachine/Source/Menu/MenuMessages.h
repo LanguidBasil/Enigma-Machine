@@ -77,9 +77,12 @@ If you don't want to insert plug enter two identical letters as "AA")";
 
 
 	static const std::string ENCRYPTION =
-R"(Configuration finished, enter message of letters to encode
-Enter 1 to get current configuration, 2 to reset machine, or 3 to reconfigure
-Any other symbol e.g. space, '8', '\' will be ignored)";
+R"(Configuration finished, you can:
+- Enter message of letters to encode
+- Enter 1 to get current configuration
+- Enter 2 to reset machine
+- Enter 3 to reconfigure
+Any other symbol e.g. space, '8' or '\' will be ignored)";
 
 	static const std::string ENCRYPTION_CURRENT_CONF =
 R"(Current configuration: )";

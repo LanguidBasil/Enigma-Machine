@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include "../Enigma/Enigma.h"
 #include "Menu.h"
 #include "MenuMessages.h"
 
@@ -37,8 +38,41 @@ namespace Menu
 		}
 	}
 
+	static void Encryption(Enigma::Enigma& e)
+	{
+		std::string input;
+		std::string output;
+
+		while (true)
+		{
+			output = "";
+			cout << Messages::INPUT;
+			std::getline(std::cin, input);
+
+			for (auto c : input)
+			{
+				c = toupper(c);
+				if (c >= 'A' && c <= 'Z')
+				{
+					c = e.Encode(c);
+					output += c;
+				}
+			}
+
+			for (auto i = 0; i < output.size(); i++)
+			{
+				cout << output[i];
+				if (i % 5 == 0 && i != 0)
+					cout << ' ';
+			}
+
+			cout << endl;
+		}
+	}
+
 	void Start()
 	{
+		std::unique_ptr<Enigma::Enigma> e;
 		std::string inputS;
 		char inputC;
 
@@ -47,8 +81,16 @@ namespace Menu
 
 		inputC = InputOneOfTwo('R', 'M');
 		if (inputC == 'R')
+		{
+			e = std::make_unique<Enigma::Enigma>(Enigma::Enigma::GenerateRandom());
 			cout << Messages::CONF_RANDOM << endl << endl;
+		}
 		else
-			cout << Messages::CONF_MANUAL << endl << endl;
+		{
+			cout << "Not implemented" << endl << endl;
+		}
+
+		cout << Messages::ENCRYPTION << endl << endl;
+		Encryption(*e.get());
 	}
 }
