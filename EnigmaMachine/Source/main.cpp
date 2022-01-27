@@ -3,14 +3,23 @@
 #include "Enigma/Enigma.h"
 #include "Math Extenstions/MathExtensions.h"
 
+Enigma constructEnigma()
+{
+	auto rotorConf1 = "DMTWSILRUYQNKFEJCAZBPGXOHV";
+	auto rotorConf2 = "HQZGPJTMOBLNCIFDYAWVEUSRKX";
+	auto rotorConf3 = "UQNTLSZFMREHDPXKIBVYGJCWOA";
+	std::array<Rotor, 3> rotors = { Rotor(rotorConf1, 16, 14), Rotor(rotorConf2, 3, 4), Rotor(rotorConf3, 5, 21) };
+
+	std::array<Plug, 10> plugboard = { Plug("QE"), Plug("ZI"), Plug("OA"), Plug("SD"), Plug("HJ"), Plug("KC"), Plug("WU"), Plug("FY"), Plug("VN"), Plug("BT") };
+
+	auto reflectorConf = "FVPJIAOYEDRZXWGCTKUQSBNMHL";
+
+	return Enigma(rotors, plugboard, reflectorConf);
+}
+
 int main()
 {
-	auto IC = "DMTWSILRUYQNKFEJCAZBPGXOHV";
-	auto IIC = "HQZGPJTMOBLNCIFDYAWVEUSRKX";
-	auto IIIC = "UQNTLSZFMREHDPXKIBVYGJCWOA";
-	std::array<Rotor, 3> rotors = { Rotor(IC, 16, 0), Rotor(IIC, 3, 0), Rotor(IIIC, 5, 0) };
-	std::array<Plug, 10> plugs = { Plug("QE"), Plug("ZI"), Plug("OA"), Plug("SD"), Plug("HJ"), Plug("KC"), Plug("WU"), Plug("FY"), Plug("VN"), Plug("BT") };
-	Enigma e(rotors, plugs);
+	Enigma e = constructEnigma();
 
 	std::string input;
 	std::string output;

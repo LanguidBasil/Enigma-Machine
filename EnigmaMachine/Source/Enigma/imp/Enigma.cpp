@@ -2,10 +2,10 @@
 #include "../Enigma.h"
 #include "../../Math Extenstions/MathExtensions.h"
 
-static const int LETTERS_IN_ALPHABET = 26;
+const int LETTERS_IN_ALPHABET = 26;
 
-Enigma::Enigma(std::array<Rotor, 3> rotors, std::array<Plug, 10> plugboard)
-	: Rotors(rotors), Plugboard(plugboard) {}
+Enigma::Enigma(std::array<Rotor, 3> rotors, std::array<Plug, 10> plugboard, std::string reflectorConfiguration)
+	: Rotors(rotors), Plugboard(plugboard), ReflectorConfiguration(reflectorConfiguration) {}
 
 char Enigma::Encode(char input)
 {
@@ -62,10 +62,10 @@ char Enigma::PushToRotor(char input, int rotorIndex)
 
 char Enigma::PushToReflector(char input)
 {
-	char output = input;
-	output -= 'A';
-	output = (output + 13) % LETTERS_IN_ALPHABET;
-	output += 'A';
+	int indexInConf = input - 'A';
+
+	char output = ReflectorConfiguration[indexInConf];
+
 	return output;
 }
 
