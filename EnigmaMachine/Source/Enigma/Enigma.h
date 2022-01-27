@@ -9,10 +9,14 @@ namespace Enigma
 	class Enigma
 	{
 	public:
+		static Enigma GenerateRandom();
+
 		Enigma(std::array<Rotor, 3> rotors, std::array<Plug, 10> plugboard, std::string reflectorConfiguration);
 
-		static Enigma GenerateRandom();
 		char Encode(char input);
+		std::array<Rotor, 3>& GetRotors();
+		std::array<Plug, 10>& GetPlugboard();
+		std::string& GetReflectorConfiguration();
 
 	private:
 		std::array<Rotor, 3> Rotors;

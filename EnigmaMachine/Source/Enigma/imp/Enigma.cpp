@@ -85,6 +85,21 @@ namespace Enigma
 		return output;
 	}
 
+	std::array<Rotor, 3>& Enigma::GetRotors()
+	{
+		return Rotors;
+	}
+
+	std::array<Plug, 10>& Enigma::GetPlugboard()
+	{
+		return Plugboard;
+	}
+
+	std::string& Enigma::GetReflectorConfiguration()
+	{
+		return ReflectorConfiguration;
+	}
+
 	char Enigma::PushToPlugboard(char input) const
 	{
 		for (auto& plug : Plugboard)
