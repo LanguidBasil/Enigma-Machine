@@ -2,7 +2,6 @@
 #include <time.h>
 #include "../Enigma.h"
 #include "../EnigmaConfigurations.h"
-#include "../../Math Extenstions/MathExtensions.h"
 
 static const int LETTERS_IN_ALPHABET = 26;
 
@@ -57,11 +56,9 @@ namespace Enigma
 
 	char Enigma::Encode(char input)
 	{
-		// to upper case
-		if (MathExt::InRangeInclusive(input, 'a', 'z'))
-			input -= 32;
+		input = toupper(input);
 
-		if (!MathExt::InRangeInclusive(input, 'A', 'Z'))
+		if (input < 'A' || input > 'Z')
 			throw "Input is not a character";
 
 

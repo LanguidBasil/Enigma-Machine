@@ -18,6 +18,7 @@ namespace Menu
 
 		while (true)
 		{
+			std::cout << Messages::INPUT;
 			cin >> input;
 
 			if (input.length() != 1)
@@ -42,7 +43,7 @@ namespace Menu
 		char inputC;
 
 		cout << Messages::WELCOME << endl << endl;
-		cout << Messages::CONF << endl << Messages::INPUT;
+		cout << Messages::CONF << endl;
 
 		inputC = InputOneOfTwo('R', 'M');
 		if (inputC == 'R')
