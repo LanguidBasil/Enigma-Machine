@@ -83,7 +83,7 @@ namespace Enigma
 		return output;
 	}
 
-	char Enigma::PushToPlugboard(char input)
+	char Enigma::PushToPlugboard(char input) const
 	{
 		for (auto& plug : Plugboard)
 		{
@@ -96,17 +96,17 @@ namespace Enigma
 		return input;
 	}
 
-	char Enigma::PushToRotor(char input, int rotorIndex)
+	char Enigma::PushToRotor(char input, int rotorIndex) const
 	{
 		int indexInConf = input - 'A';
 
-		Rotor& rotor = Rotors[rotorIndex];
+		const Rotor& rotor = Rotors[rotorIndex];
 		char output = rotor.Configuration[(indexInConf + rotor.Rotation) % LETTERS_IN_ALPHABET];
 
 		return output;
 	}
 
-	char Enigma::PushToReflector(char input)
+	char Enigma::PushToReflector(char input) const
 	{
 		int indexInConf = input - 'A';
 
@@ -115,9 +115,9 @@ namespace Enigma
 		return output;
 	}
 
-	char Enigma::PushToRotorBackwards(char input, int rotorIndex)
+	char Enigma::PushToRotorBackwards(char input, int rotorIndex) const
 	{
-		Rotor& rotor = Rotors[rotorIndex];
+		const Rotor& rotor = Rotors[rotorIndex];
 		for (auto i = 0; i < LETTERS_IN_ALPHABET; i++)
 			if (rotor.Configuration[i] == input)
 			{

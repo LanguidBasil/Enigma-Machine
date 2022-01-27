@@ -20,10 +20,10 @@ namespace Enigma
 		/// Every two letters should be flipped, i.e. if a is b then b should be a
 		std::string ReflectorConfiguration;
 
-		char PushToPlugboard(char input);
-		char PushToRotor(char input, int rotorIndex);
-		char PushToReflector(char input);
-		char PushToRotorBackwards(char input, int rotorIndex);
+		char PushToPlugboard(char input) const;
+		char PushToRotor(char input, int rotorIndex) const;
+		char PushToReflector(char input) const;
+		char PushToRotorBackwards(char input, int rotorIndex) const;
 		void UpdateRotors();
 	};
 }
