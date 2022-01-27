@@ -3,8 +3,10 @@
 #include "Enigma/Enigma.h"
 #include "Math Extenstions/MathExtensions.h"
 
-Enigma constructEnigma()
+Enigma::Enigma constructEnigma()
 {
+	using namespace Enigma;
+
 	auto rotorConf1 = "DMTWSILRUYQNKFEJCAZBPGXOHV";
 	auto rotorConf2 = "HQZGPJTMOBLNCIFDYAWVEUSRKX";
 	auto rotorConf3 = "UQNTLSZFMREHDPXKIBVYGJCWOA";
@@ -14,12 +16,12 @@ Enigma constructEnigma()
 
 	auto reflectorConf = "FVPJIAOYEDRZXWGCTKUQSBNMHL";
 
-	return Enigma(rotors, plugboard, reflectorConf);
+	return ::Enigma::Enigma(rotors, plugboard, reflectorConf);
 }
 
 int main()
 {
-	Enigma e = constructEnigma();
+	Enigma::Enigma e = constructEnigma();
 
 	std::string input;
 	std::string output;
@@ -29,7 +31,7 @@ int main()
 		output = "";
 		
 		for (auto c : input)
-			if (InRangeInclusive(c, 'A', 'Z') || InRangeInclusive(c, 'a', 'z'))
+			if (MathExt::InRangeInclusive(c, 'A', 'Z') || MathExt::InRangeInclusive(c, 'a', 'z'))
 				output += e.Encode(c);
 
 		for (auto i = 0; i < output.size(); i++)

@@ -1,3 +1,6 @@
 #pragma once
 
-bool InRangeInclusive(int input, int lowInclusive, int highInclusive);
+namespace MathExt
+{
+	bool InRangeInclusive(int input, int lowInclusive, int highInclusive);
+}

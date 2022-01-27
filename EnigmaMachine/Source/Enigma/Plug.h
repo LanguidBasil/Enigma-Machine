@@ -1,13 +1,19 @@
 #pragma once
+
 #include <string>
 
-struct Plug
+namespace Enigma
 {
-	Plug(char letter1, char letter2)
-		: Letter1(letter1), Letter2(letter2) {}
-	Plug(std::string letters)
-		: Letter1(letters[0]), Letter2(letters[1]) {}
+	struct Plug
+	{
+		Plug(char letter1, char letter2)
+			: Letter1(letter1), Letter2(letter2)
+		{}
+		Plug(std::string letters)
+			: Letter1(letters[0]), Letter2(letters[1])
+		{}
 
-	const char Letter1;
-	const char Letter2;
-};
+		const char Letter1;
+		const char Letter2;
+	};
+}
