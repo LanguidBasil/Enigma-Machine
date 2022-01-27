@@ -13,18 +13,20 @@ namespace Enigma
 		std::srand(time(nullptr));
 		
 		std::array<Plug, 10> plugboard;
-		std::array<bool, 26> alphabetLetterIsOccupied = { false };
+		std::array<bool, LETTERS_IN_ALPHABET> alphabetLetterIsOccupied = { false };
 
 		int letterIndex1, letterIndex2;
 		for (int i = 0; i < 10; i++)
 		{
-			letterIndex1 = rand() % 26;
+			letterIndex1 = rand() % LETTERS_IN_ALPHABET;
 			while (alphabetLetterIsOccupied[letterIndex1])
-				letterIndex1++;
+				letterIndex1 = (letterIndex1 + 1) % LETTERS_IN_ALPHABET;
+			alphabetLetterIsOccupied[letterIndex1] = true;
 
 			letterIndex2 = rand() % 26;
 			while (alphabetLetterIsOccupied[letterIndex2])
-				letterIndex2++;
+				letterIndex2 = (letterIndex2 + 1) % LETTERS_IN_ALPHABET;
+			alphabetLetterIsOccupied[letterIndex2] = true;
 
 			plugboard[i] = Plug('A' + letterIndex1, 'A' + letterIndex2);
 		}
