@@ -2,5 +2,5 @@
 
 namespace Menu
 {
-	static void Start();
+	void Start();
 }
