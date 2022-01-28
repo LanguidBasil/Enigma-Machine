@@ -1,5 +1,7 @@
 #include <iostream>
 #include <string>
+#include <sstream>
+#include <vector>
 #include "../Enigma/Enigma.h"
 #include "../Enigma/EnigmaConfigurations.h"
 #include "Menu.h"
@@ -16,7 +18,7 @@ namespace Menu
 		std::cout << Messages::INPUT;
 	}
 
-	static void PrintInputMessage(std::string prefix)
+	static void PrintInputMessage(const std::string& prefix)
 	{
 		std::cout << prefix << Messages::INPUT;
 	}
@@ -24,6 +26,20 @@ namespace Menu
 	static void PrintInvalidInputMessage()
 	{
 		std::cout << Messages::INVALID_INPUT << endl;
+	}
+
+	// --------------------------------------------------------------------------------------------
+
+	static std::vector<std::string> Tokenize(const std::string& string)
+	{
+		std::stringstream ss(string);
+		std::vector<std::string> tokens;
+		std::string token;
+
+		while (std::getline(ss, token, ' '))
+			tokens.push_back(token);
+
+		return tokens;
 	}
 
 	static char InputOneOfTwo(char expect1, char expect2)
@@ -78,6 +94,99 @@ namespace Menu
 		}
 	}
 
+	// --------------------------------------------------------------------------------------------
+
+	static bool InputRotorIsCorrect(std::vector<std::string> tokens)
+	{
+		if (tokens.size() != 3)
+			return false;
+
+		try
+		{
+			int inputI = std::stoi(tokens[0]);
+			if (inputI < 0 || inputI > Enigma::Configurations::RotorConfs.size())
+				throw std::exception("Index out of range");
+		}
+		catch (const std::exception&)
+		{
+			return false;
+		}
+
+		char rotationLetter = toupper(tokens[1][0]);
+		char ringPositionLetter = toupper(tokens[2][0]);
+
+		if (tokens[1].size() != 1 || tokens[2].size() != 1)
+			return false;
+
+		if (rotationLetter < 'A' || rotationLetter > 'Z' || ringPositionLetter < 'A' || ringPositionLetter > 'Z')
+			return false;
+
+		return true;
+	}
+
+	static Enigma::Rotor InputRotor(std::string inputPrefix)
+	{
+		std::string input;
+
+		while (true)
+		{
+			PrintInputMessage(inputPrefix);
+
+			std::getline(cin >> std::ws, input);
+
+			// <rotor index> <starting letter> <ring change letter>
+			auto tokens = Tokenize(input);
+			if (!InputRotorIsCorrect(tokens))
+			{
+				PrintInvalidInputMessage();
+				continue;
+			}
+
+			int inputI = std::stoi(tokens[0]);
+			char rotationLetter = toupper(tokens[1][0]);
+			char ringPositionLetter = toupper(tokens[2][0]);
+
+			const auto& rotorConf = Enigma::Configurations::RotorConfs[inputI];
+			int rotationIndex, ringPositionIndex;
+			for (auto i = 0; i < rotorConf.size(); i++)
+			{
+				if (rotorConf[i] == rotationLetter)
+					rotationIndex = i;
+				if (rotorConf[i] == ringPositionLetter)
+					ringPositionIndex = i;
+			}
+
+			return Enigma::Rotor(rotorConf, rotationIndex, ringPositionIndex);
+		}
+	}
+
+	static std::array<Enigma::Rotor, 3> InputRotors()
+	{
+		cout << Messages::ConfRotors() << endl << endl << Messages::CONF_MANUAL_ROTORS << endl;
+
+		std::array<Enigma::Rotor, 3> rotors;
+		for (auto i = 0; i < 3; i++)
+			rotors[i] = InputRotor("Rotor " + std::to_string(i + 1));
+
+		return rotors;
+	}
+
+	static std::string InputReflector()
+	{
+		cout << Messages::ConfReflectors() << endl << endl << Messages::CONF_MANUAL_REFLECTOR << endl;
+
+		const auto& reflectors = Enigma::Configurations::ReflectorConfs;
+		int reflectorIndex = InputInRange(0, reflectors.size() - 1);
+		return reflectors[reflectorIndex];
+	}
+
+	//static std::array<Enigma::Plug, 10> InputPlugboard()
+	//{
+
+	//}
+
+	// --------------------------------------------------------------------------------------------
+
 	static void Encryption(Enigma::Enigma& e)
 	{
 		std::string input;
@@ -124,16 +233,20 @@ namespace Menu
 		{
 			// Random conf
 			e = std::make_unique<Enigma::Enigma>(Enigma::Enigma::GenerateRandom());
-			cout << Messages::CONF_RANDOM << endl << endl;
 		}
 		else
 		{
 			// Manual conf
-			cout << Messages::ConfRotors() << endl << endl << Messages::CONF_MANUAL_ROTORS << endl;
-			InputInRange(0, Enigma::Configurations::RotorConfs.size() - 1);
+			auto rotors = InputRotors();
+			cout << endl;
+			auto reflector = InputReflector();
+			cout << endl;
+			//auto plugboard = InputPlugboard();
+
+			//e = std::make_unique<Enigma::Enigma>(Enigma::Enigma(rotors, plugboard, reflector));
 		}
 
-		cout << Messages::ENCRYPTION << endl << endl;
-		Encryption(*e.get());
+		//cout << Messages::ENCRYPTION << endl << endl;
+		//Encryption(*e.get());
 	}
 }

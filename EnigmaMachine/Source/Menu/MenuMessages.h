@@ -46,11 +46,6 @@ R"(Enter 'R' to generate random configuration or 'M' to configure manually)";
 
 
 
-	static const std::string CONF_RANDOM =
-R"(Enigma was configured randomly)";
-
-
-
 	static const std::string CONF_MANUAL =
 R"(Manual configuration)";
 
