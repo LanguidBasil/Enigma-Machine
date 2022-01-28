@@ -82,8 +82,8 @@ R"(Configuration finished, you can:
 - Enter 3 to reconfigure
 Any other symbol e.g. space, '8' or '\' will be ignored)";
 
-	static const std::string WORK_CURRENT_CONF =
-R"(Current configuration: )";
+	static const std::string WORK_RESET_CONF =
+R"(Enigma was reset)";
 
 	std::string CurrentConf(const Enigma::Enigma& e);
 

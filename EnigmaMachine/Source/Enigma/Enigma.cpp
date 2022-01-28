@@ -34,7 +34,10 @@ namespace Enigma
 	}
 
 	Enigma::Enigma(std::array<Rotor, 3> rotors, std::array<Plug, 10> plugboard, std::string reflectorConfiguration)
-		: Rotors(rotors), Plugboard(plugboard), ReflectorConfiguration(reflectorConfiguration)
+		: Rotors(rotors), 
+		  RotorRotationsAtStart({ rotors[0].Rotation, rotors[1].Rotation, rotors[2].Rotation }), 
+		  Plugboard(plugboard), 
+		  ReflectorConfiguration(reflectorConfiguration)
 	{}
 
 	Enigma Enigma::GenerateRandom()
@@ -80,6 +83,12 @@ namespace Enigma
 
 
 		return output;
+	}
+
+	void Enigma::ResetRotors()
+	{
+		for (auto i = 0; i < Rotors.size(); i++)
+			Rotors[i].Rotation = RotorRotationsAtStart[i];
 	}
 
 	std::array<Rotor, 3> Enigma::GetRotors() const

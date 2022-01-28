@@ -273,6 +273,8 @@ namespace Menu
 				cout << Messages::CurrentConf(e) << endl << endl;
 				break;
 			case '2':
+				e.ResetRotors();
+				cout << Messages::WORK_RESET_CONF << endl << endl;
 				break;
 			case '3':
 				wantToReconfigure = true;
