@@ -240,68 +240,95 @@ namespace Menu
 
 	// --------------------------------------------------------------------------------------------
 
-	static void Encryption(Enigma::Enigma& e)
+	static std::string EncryptWord(Enigma::Enigma& e, const std::string& word)
 	{
+		std::string output = "";
+		for (auto c : word)
+		{
+			c = toupper(c);
+			if ('A' <= c && c <= 'Z')
+			{
+				c = e.Encode(c);
+				output += c;
+			}
+		}
+
+		return output;
+	}
+
+	static void Work(Enigma::Enigma& e, bool& wantToReconfigure)
+	{
+		const auto rotorsAtStart = e.GetRotors();
 		std::string input;
 		std::string output;
 
 		while (true)
 		{
-			output = "";
 			cout << Messages::INPUT;
-			std::getline(std::cin, input);
+			std::getline(std::cin >> std::ws, input);
 
-			for (auto c : input)
+			switch (toupper(input[0]))
 			{
-				c = toupper(c);
-				if (c >= 'A' && c <= 'Z')
+			case '1':
+				cout << Messages::CurrentConf(e) << endl << endl;
+				break;
+			case '2':
+				break;
+			case '3':
+				wantToReconfigure = true;
+				return;
+			default:
+				output = EncryptWord(e, input);
+
+				cout << output[0];
+				for (auto i = 1; i < output.size(); i++)
 				{
-					c = e.Encode(c);
-					output += c;
+					cout << output[i];
+					if ((i + 1) % 5 == 0)
+						cout << ' ';
 				}
-			}
 
-			for (auto i = 0; i < output.size(); i++)
-			{
-				cout << output[i];
-				if (i % 5 == 0 && i != 0)
-					cout << ' ';
+				cout << endl << endl;
+				break;
 			}
-
-			cout << endl;
 		}
 	}
 
 	void Start()
 	{
 		std::unique_ptr<Enigma::Enigma> e;
-		std::string inputS;
-		char inputC;
 
-		cout << Messages::WELCOME << endl << endl;
-		cout << Messages::CONF << endl;
-
-		inputC = InputOneOfTwo('R', 'M');
-		cout << endl << endl;
-		if (inputC == 'R')
+		while (true)
 		{
-			// Random conf
-			e = std::make_unique<Enigma::Enigma>(Enigma::Enigma::GenerateRandom());
-		}
-		else
-		{
-			// Manual conf
-			auto rotors = InputRotors();
-			cout << endl << endl;
-			auto reflector = InputReflector();
-			cout << endl << endl;
-			auto plugboard = InputPlugboard();
-			cout << endl << endl;
+			cout << Messages::WELCOME << endl << endl;
+			cout << Messages::CONF << endl;
 
-			e = std::make_unique<Enigma::Enigma>(Enigma::Enigma(rotors, plugboard, reflector));
-		}
+			char inputC = InputOneOfTwo('R', 'M');
+			cout << endl << endl;
+			if (inputC == 'R')
+			{
+				// Random conf
+				e = std::make_unique<Enigma::Enigma>(Enigma::Enigma::GenerateRandom());
+			}
+			else
+			{
+				// Manual conf
+				auto rotors = InputRotors();
+				cout << endl << endl;
+				auto reflector = InputReflector();
+				cout << endl << endl;
+				auto plugboard = InputPlugboard();
+				cout << endl << endl;
 
-		cout << Messages::ENCRYPTION << endl << endl;
-		Encryption(*e.get());
+				e = std::make_unique<Enigma::Enigma>(Enigma::Enigma(rotors, plugboard, reflector));
+			}
+
+			bool wantToReconfigue = false;
+			cout << Messages::WORK << endl << endl;
+			Work(*e.get(), wantToReconfigue);
+
+			if (!wantToReconfigue)
+				break;
+		}
 	}
 }

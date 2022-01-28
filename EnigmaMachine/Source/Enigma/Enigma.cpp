@@ -82,17 +82,17 @@ namespace Enigma
 		return output;
 	}
 
-	std::array<Rotor, 3>& Enigma::GetRotors()
+	std::array<Rotor, 3> Enigma::GetRotors() const
 	{
 		return Rotors;
 	}
 
-	std::array<Plug, 10>& Enigma::GetPlugboard()
+	std::array<Plug, 10> Enigma::GetPlugboard() const
 	{
 		return Plugboard;
 	}
 
-	std::string& Enigma::GetReflectorConfiguration()
+	std::string Enigma::GetReflectorConfiguration() const
 	{
 		return ReflectorConfiguration;
 	}

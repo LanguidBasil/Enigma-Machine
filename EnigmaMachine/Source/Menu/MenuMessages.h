@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include "../Enigma/Enigma.h"
 
 namespace Menu
 {
@@ -12,9 +13,10 @@ namespace Messages
 		| 				| MANUALLY | ROTOR, RINGS, START POSITION
 		| 						   | REFLECTOR
 		| 						   | PLUG BOARD
-		| ENCRYPTION | WORK
-		|			 | GET CONFIGURATION
-		|			 | RECONFIGURE
+		| WORK | ENCRYPTION
+		|	   | GET CONFIGURATION
+		|	   | RESET CONFIGURATION
+		|	   | RECONFIGURE
 	*/
 
 	/*
@@ -72,7 +74,7 @@ If you don't want to insert plug enter two identical letters as "AA")";
 
 
 
-	static const std::string ENCRYPTION =
+	static const std::string WORK =
 R"(Configuration finished, you can:
 - Enter message of letters to encode
 - Enter 1 to get current configuration
@@ -80,8 +82,10 @@ R"(Configuration finished, you can:
 - Enter 3 to reconfigure
 Any other symbol e.g. space, '8' or '\' will be ignored)";
 
-	static const std::string ENCRYPTION_CURRENT_CONF =
+	static const std::string WORK_CURRENT_CONF =
 R"(Current configuration: )";
+
+	std::string CurrentConf(const Enigma::Enigma& e);
 
 }
 }

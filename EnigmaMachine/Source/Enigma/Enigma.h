@@ -14,9 +14,9 @@ namespace Enigma
 		Enigma(std::array<Rotor, 3> rotors, std::array<Plug, 10> plugboard, std::string reflectorConfiguration);
 
 		char Encode(char input);
-		std::array<Rotor, 3>& GetRotors();
-		std::array<Plug, 10>& GetPlugboard();
-		std::string& GetReflectorConfiguration();
+		std::array<Rotor, 3> GetRotors() const;
+		std::array<Plug, 10> GetPlugboard() const;
+		std::string GetReflectorConfiguration() const;
 
 	private:
 		std::array<Rotor, 3> Rotors;
