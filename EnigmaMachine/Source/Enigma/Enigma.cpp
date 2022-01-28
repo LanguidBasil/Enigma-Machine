@@ -1,7 +1,7 @@
 #include <array>
 #include <time.h>
-#include "../Enigma.h"
-#include "../EnigmaConfigurations.h"
+#include "Enigma.h"
+#include "EnigmaConfigurations.h"
 
 namespace Enigma
 {
