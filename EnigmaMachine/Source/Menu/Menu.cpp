@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include "../Enigma/Enigma.h"
+#include "../Enigma/EnigmaConfigurations.h"
 #include "Menu.h"
 #include "MenuMessages.h"
 
@@ -10,16 +11,30 @@ namespace Menu
 	using std::cin;
 	using std::endl;
 
+	static void PrintInputMessage()
+	{
+		std::cout << Messages::INPUT;
+	}
+
+	static void PrintInputMessage(std::string prefix)
+	{
+		std::cout << prefix << Messages::INPUT;
+	}
+
+	static void PrintInvalidInputMessage()
+	{
+		std::cout << Messages::INVALID_INPUT << endl;
+	}
+
 	static char InputOneOfTwo(char expect1, char expect2)
 	{
 		expect1 = toupper(expect1);
 		expect2 = toupper(expect2);
 		std::string input;
-		char inputC;
 
 		while (true)
 		{
-			std::cout << Messages::INPUT;
+			PrintInputMessage();
 			cin >> input;
 
 			if (input.length() != 1)
@@ -28,13 +43,38 @@ namespace Menu
 				continue;
 			}
 
-			inputC = toupper(input[0]);
-			if (inputC == expect1)
-				return expect1;
-			else if (inputC == expect2)
-				return expect2;
+			char inputC = toupper(input[0]);
+			if (inputC == expect1 || inputC == expect2)
+				return inputC;
 			else
-				cout << Messages::INVALID_INPUT << endl;
+				PrintInvalidInputMessage();
+		}
+	}
+
+	static int InputInRange(int lowInclusive, int highInclusive)
+	{
+		std::string input;
+
+		while (true)
+		{
+			PrintInputMessage();
+			cin >> input;
+
+			int inputI;
+			try
+			{
+				inputI = std::stoi(input);
+			}
+			catch (const std::exception&)
+			{
+				PrintInvalidInputMessage();
+				continue;
+			}
+
+			if (lowInclusive <= inputI && inputI <= highInclusive)
+				return inputI;
+			else
+				PrintInvalidInputMessage();
 		}
 	}
 
@@ -82,12 +122,15 @@ namespace Menu
 		inputC = InputOneOfTwo('R', 'M');
 		if (inputC == 'R')
 		{
+			// Random conf
 			e = std::make_unique<Enigma::Enigma>(Enigma::Enigma::GenerateRandom());
 			cout << Messages::CONF_RANDOM << endl << endl;
 		}
 		else
 		{
-			cout << "Not implemented" << endl << endl;
+			// Manual conf
+			cout << Messages::ConfRotors() << endl << endl << Messages::CONF_MANUAL_ROTORS << endl;
+			InputInRange(0, Enigma::Configurations::RotorConfs.size() - 1);
 		}
 
 		cout << Messages::ENCRYPTION << endl << endl;

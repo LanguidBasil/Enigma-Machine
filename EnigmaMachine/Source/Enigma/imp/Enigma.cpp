@@ -3,10 +3,10 @@
 #include "../Enigma.h"
 #include "../EnigmaConfigurations.h"
 
-static const int LETTERS_IN_ALPHABET = 26;
-
 namespace Enigma
 {
+	static const int LETTERS_IN_ALPHABET = 26;
+
 	static std::array<Plug, 10> GenerateRandomPlugboard()
 	{
 		std::srand(time(nullptr));
