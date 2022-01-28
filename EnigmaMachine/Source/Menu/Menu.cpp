@@ -51,7 +51,7 @@ namespace Menu
 		while (true)
 		{
 			PrintInputMessage();
-			cin >> input;
+			std::getline(cin >> std::ws, input);
 
 			if (input.length() != 1)
 			{
@@ -147,7 +147,8 @@ namespace Menu
 			char ringPositionLetter = toupper(tokens[2][0]);
 
 			const auto& rotorConf = Enigma::Configurations::RotorConfs[inputI];
-			int rotationIndex, ringPositionIndex;
+			int rotationIndex = 0;
+			int ringPositionIndex = 0;
 			for (auto i = 0; i < rotorConf.size(); i++)
 			{
 				if (rotorConf[i] == rotationLetter)
@@ -180,10 +181,62 @@ namespace Menu
 		return reflectors[reflectorIndex];
 	}
 
-	//static std::array<Enigma::Plug, 10> InputPlugboard()
-	//{
+	static bool InputPlugboardIsCorrect(std::vector<std::string> tokens, int plugNumber)
+	{
+		if (tokens.size() != plugNumber)
+			return false;
 
-	//}
+		std::array<bool, 26> letterIsOccupied { false };
+
+		for (auto i = 0; i < plugNumber; i++)
+		{
+			if (tokens[i].size() != 2)
+				return false;
+
+			char fLetter = toupper(tokens[i][0]);
+			char sLetter = toupper(tokens[i][1]);
+			if (fLetter < 'A' || fLetter > 'Z' || sLetter < 'A' || sLetter > 'Z')
+				return false;
+
+			if (fLetter == sLetter)
+				continue;
+
+			if (letterIsOccupied[fLetter - 'A'] || letterIsOccupied[sLetter - 'A'])
+				return false;
+
+			letterIsOccupied[fLetter - 'A'] = true;
+			letterIsOccupied[sLetter - 'A'] = true;
+		}
+
+		return true;
+	}
+
+	static std::array<Enigma::Plug, 10> InputPlugboard()
+	{
+		cout << Messages::CONF_MANUAL_PLUGBOARD << endl;
+
+		std::array<Enigma::Plug, 10> plugboard;
+		std::string input;
+
+		while (true)
+		{
+			PrintInputMessage();
+
+			std::getline(cin >> std::ws, input);
+
+			auto tokens = Tokenize(input);
+			if (!InputPlugboardIsCorrect(tokens, 10))
+			{
+				PrintInvalidInputMessage();
+				continue;
+			}
+
+			for (auto i = 0; i < 10; i++)
+				plugboard[i] = Enigma::Plug(tokens[i]);
+
+			return plugboard;
+		}
+	}
 
 	// --------------------------------------------------------------------------------------------
 
@@ -229,6 +282,7 @@ namespace Menu
 		cout << Messages::CONF << endl;
 
 		inputC = InputOneOfTwo('R', 'M');
+		cout << endl << endl;
 		if (inputC == 'R')
 		{
 			// Random conf
@@ -238,15 +292,16 @@ namespace Menu
 		{
 			// Manual conf
 			auto rotors = InputRotors();
-			cout << endl;
+			cout << endl << endl;
 			auto reflector = InputReflector();
-			cout << endl;
-			//auto plugboard = InputPlugboard();
+			cout << endl << endl;
+			auto plugboard = InputPlugboard();
+			cout << endl << endl;
 
-			//e = std::make_unique<Enigma::Enigma>(Enigma::Enigma(rotors, plugboard, reflector));
+			e = std::make_unique<Enigma::Enigma>(Enigma::Enigma(rotors, plugboard, reflector));
 		}
 
-		//cout << Messages::ENCRYPTION << endl << endl;
-		//Encryption(*e.get());
+		cout << Messages::ENCRYPTION << endl << endl;
+		Encryption(*e.get());
 	}
 }
