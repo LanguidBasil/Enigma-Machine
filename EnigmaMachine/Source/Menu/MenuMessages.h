@@ -54,17 +54,18 @@ R"(Enigma was configured randomly)";
 	static const std::string CONF_MANUAL =
 R"(Manual configuration)";
 
-	// print options of rotors above
+	std::string ConfRotors();
+
 	static const std::string CONF_MANUAL_ROTORS =
 R"(To choose a rotor enter comand as:
-"<rotor wheel index> <ring change position> <starting letter of rotor>"
+"<rotor index> <starting letter> <ring change letter>"
 
-Rotor wheel index - index from above
-Ring change position - when letter on rotor is equal to this number next rotor will rotate as well
+Ring change letter - when rotor is on that letter it will rotate next rotor as well
+For example, a command "0 J L"
+Will choose first rotor that starts on letter 'J' and on letter 'L' will rotate next rotor)";
 
-Ring change position and starting letter of rotor should be in 0 to 25 range)";
+	std::string ConfReflectors();
 
-	// print options of reflectors above
 	static const std::string CONF_MANUAL_REFLECTOR =
 R"(Enter index of reflector from above: )";
 
