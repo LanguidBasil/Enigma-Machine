@@ -40,7 +40,7 @@ namespace Messages
 		{
 			const auto& cRotor = rotors[i];
 
-			output += "Rotor " + std::to_string(i) + ": conf - " + cRotor.Configuration +
+			output += "Rotor " + std::to_string(i + 1) + ": conf - " + cRotor.Configuration +
 					  " current letter - " + cRotor.Configuration[cRotor.Rotation] + 
 					  " ring letter - " + cRotor.Configuration[cRotor.RotationRingIndex];
 			output += '\n';
